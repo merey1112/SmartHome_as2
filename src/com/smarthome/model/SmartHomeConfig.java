@@ -88,6 +88,19 @@ public class SmartHomeConfig {
         }
 
         public SmartHomeConfig build() {
+            if (hubId == null || hubId.trim().isEmpty()) {
+                throw new IllegalArgumentException("Hub ID не может быть пустым!");
+            }
+            if (ipAddress == null || ipAddress.trim().isEmpty()) {
+                throw new IllegalArgumentException("IP address не может быть пустым!");
+            }
+            if (firmwareVersion == null || firmwareVersion.trim().isEmpty()) {
+                throw new IllegalArgumentException("Firmware version не может быть пустой!");
+            }
+            if (networkConfig == null) {
+                throw new IllegalArgumentException("NetworkConfig обязателен!");
+            }
+
             return new SmartHomeConfig(this);
         }
     }
