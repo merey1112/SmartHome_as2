@@ -15,5 +15,13 @@ public class Main {
                 .build();
 
         System.out.println("Хаб успешно создан через Builder! ID: " + config.getHubId());
+
+        // Добавляем тест перехвата ошибок валидации
+        try {
+            SmartHomeConfig invalidConfig = new SmartHomeConfig.Builder("", "192.168.1.1", "v1.0", net)
+                    .build();
+        } catch (IllegalArgumentException e) {
+            System.out.println("Валидация перехвачена: " + e.getMessage());
+        }
     }
 }
