@@ -100,6 +100,9 @@ public class SmartHomeConfig {
             if (networkConfig == null) {
                 throw new IllegalArgumentException("NetworkConfig обязателен!");
             }
+            if (maxConnectedDevices <= 0) {
+                throw new IllegalArgumentException("Количество устройств должно быть больше 0!");
+            }
 
             return new SmartHomeConfig(this);
         }
