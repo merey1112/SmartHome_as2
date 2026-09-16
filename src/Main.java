@@ -14,14 +14,14 @@ public class Main {
                 .maxDevices(32)
                 .build();
 
-        System.out.println("Хаб успешно создан через Builder! ID: " + config.getHubId());
+        System.out.println("Успешный запуск! Хаб ID: " + config.getHubId());
+        System.out.println("IP адрес: " + config.getIpAddress());
 
-        // Добавляем тест перехвата ошибок валидации
         try {
             SmartHomeConfig invalidConfig = new SmartHomeConfig.Builder("", "192.168.1.1", "v1.0", net)
                     .build();
         } catch (IllegalArgumentException e) {
-            System.out.println("Валидация перехвачена: " + e.getMessage());
+            System.out.println("Ошибка валидации успешно обработана: " + e.getMessage());
         }
     }
 }
