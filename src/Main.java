@@ -7,12 +7,13 @@ public class Main {
     public static void main(String[] args) {
         NetworkConfig net = new NetworkConfig("Home_WiFi", "5GHz");
 
-        // Сложно понять, какой boolean за что отвечает
-        SmartHomeConfig config = new SmartHomeConfig(
-                "HUB-001", "192.168.1.1", "v1.0", net,
-                true, true, false, true, 50, "+77071234567"
-        );
+        SmartHomeConfig config = new SmartHomeConfig.Builder("HUB-001", "192.168.1.1", "v1.0", net)
+                .enableSecuritySystem()
+                .withBackupBattery()
+                .emergencyContact("+77071234567")
+                .maxDevices(32)
+                .build();
 
-        System.out.println("Хаб создан через конструктор: " + config.getHubId());
+        System.out.println("Хаб успешно создан через Builder! ID: " + config.getHubId());
     }
 }
