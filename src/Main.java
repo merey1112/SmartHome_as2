@@ -1,27 +1,22 @@
-package com.smarthome;
-
-import com.smarthome.model.NetworkConfig;
-import com.smarthome.model.SmartHomeConfig;
+import factory.*;
+import service.SmartHomeService;
 
 public class Main {
     public static void main(String[] args) {
-        NetworkConfig net = new NetworkConfig("Home_WiFi", "5GHz");
+        // Динамический выбор фабрики (Part E)
+        String ecosystemConfig = "HomeKit"; // Можно менять на "Tuya" или "Google"
 
-        SmartHomeConfig config = new SmartHomeConfig.Builder("HUB-001", "192.168.1.1", "v1.0", net)
-                .enableSecuritySystem()
-                .withBackupBattery()
-                .emergencyContact("+77071234567")
-                .maxDevices(32)
-                .build();
+        SmartHomeFactory factory;
 
-        System.out.println("Успешный запуск! Хаб ID: " + config.getHubId());
-        System.out.println("IP адрес: " + config.getIpAddress());
-
-        try {
-            SmartHomeConfig invalidConfig = new SmartHomeConfig.Builder("", "192.168.1.1", "v1.0", net)
-                    .build();
-        } catch (IllegalArgumentException e) {
-            System.out.println("Ошибка валидации успешно обработана: " + e.getMessage());
+        switch (ecosystemConfig.toLowerCase()) {
+            case "tuya" -> factory = new TuyaFactory();
+            case "homekit" -> factory = new HomeKitFactory();
+            case "google" -> factory = new GoogleFactory();
+            default -> throw new IllegalArgumentException("Неизвестная платформа: " + ecosystemConfig);
         }
+
+        SmartHomeService service = new SmartHomeService(factory);
+        service.runNightScenario();
+        service.runEcoScenario();
     }
 }
